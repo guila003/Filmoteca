@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur Filmoteca{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <section class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">
+            <i class="fas fa-video"></i> Bienvenue sur Filmoteca
+        </h1>
+        <p class="lead text-muted">
+            Gérez votre collection de films avec une interface simple et intuitive.
+        </p>
+        <a href="/film/list" class="btn btn-primary btn-lg">
+            <i class="fas fa-film"></i> Voir les films
+        </a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-list-ul"></i> Liste des films
+                    </h5>
+                    <p class="card-text">
+                        Consultez et explorez tous les films ajoutés à votre collection.
+                    </p>
+                    <a href="/film/list" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-right"></i> Accéder
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-plus"></i> Ajouter un film
+                    </h5>
+                    <p class="card-text">
+                        Ajoutez facilement de nouveaux films à votre collection.
+                    </p>
+                    <a href="/film/create" class="btn btn-outline-primary">
+                        <i class="fas fa-plus-circle"></i> Ajouter
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-cogs"></i> Organisation intuitive
+                    </h5>
+                    <p class="card-text">
+                        Gérez vos films avec des outils simples et efficaces.
+                    </p>
+                    <a href="/film/list" class="btn btn-outline-primary">
+                        <i class="fas fa-cog"></i> Commencer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="text-center py-5">
+        
+        <h2 class="fw-bold">
+            <i class="fas fa-rocket"></i> Commencez dès maintenant !
+        </h2>
+        <p class="text-muted">Ajoutez vos premiers films pour profiter de toutes les fonctionnalités.</p>
+        <a href="/film/create" class="btn btn-success btn-lg">
+            <i class="fas fa-plus-circle"></i> Ajouter un film
+        </a>
+    </section>
+</div>
+{% endblock %}

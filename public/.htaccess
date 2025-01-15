@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /
+
+# Ne pas rediriger les fichiers CSS, JS, images ou autres ressources statiques
+RewriteCond %{REQUEST_URI} !^/public/.*\.(css|js|png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|otf|eot)$ [NC]
+
+# Redirige toutes les autres requêtes vers index.php si ce n'est ni un fichier ni un dossier
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
