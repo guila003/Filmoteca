@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Film{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <!-- Film Card -->
+        <div class="col-md-8">
+            <div class="card shadow-sm border-light">
+                <!-- Film Header avec Image -->
+                <img src="{{ film.posterUrl }}" class="card-img-top" alt="{{ film.title }}">
+                
+                <!-- Film Body -->
+                <div class="card-body bg-light">
+                    <h2 class="card-title text-center text-primary">{{ film.title }}</h2>
+                    <p class="card-text text-center text-muted">{{ film.year }} | {{ film.type }}</p>
+                    
+                    <h4 class="mt-4">Synopsis</h4>
+                    <p>{{ film.synopsis }}</p>
+
+                    <h5 class="mt-4">Détails supplémentaires</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Réalisateur :</strong> {{ film.director }}</li>
+                        <li><strong>Créé le :</strong> {{ film.createdAt.format('d/m/Y H:i') }}</li>
+                        <li><strong>Dernière mise à jour :</strong> {{ film.updatedAt.format('d/m/Y H:i') }}</li>
+                    </ul>
+
+                    <div class="d-flex justify-content-center mt-4">
+                        <a href="/films" class="btn btn-info px-4 py-2">Retour à la liste</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

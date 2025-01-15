@@ -62,10 +62,24 @@ class FilmController
 
     public function read(array $queryParams)
     {
-        $film = $this->filmRepository->find((int) $queryParams['id']); // Recherche du film par ID
-
-        dd($film);  // Affiche les détails du film (ou envoie la réponse JSON, ou toute autre action)
+        // Récupère l'ID du film dans les paramètres de la requête
+        $filmId = (int) $queryParams['id'];
+    
+        // Utilise le FilmRepository pour trouver le film par ID
+        $film = $this->filmRepository->find($filmId);
+    
+        // Si le film existe, affiche ses détails, sinon redirige
+        if ($film) {
+            echo $this->renderer->render('film/read.html.twig', [
+                'film' => $film
+            ]);
+        } else {
+            // Redirige si le film n'existe pas
+            header('Location: /films');
+            exit;
+        }
     }
+    
 
     public function update()
     {
