@@ -72,8 +72,27 @@ class FilmController
         echo "Mise à jour d'un film";
     }
 
-    public function delete()
+    public function delete(array $queryParams)
     {
-        echo "Suppression d'un film";
+        // Vérifie que l'ID du film est présent dans les paramètres de la requête
+        if (isset($queryParams['id'])) {
+            $id = (int)$queryParams['id'];
+    
+            // Récupérer le film par son ID
+            $film = $this->filmRepository->find($id);
+    
+            if ($film) {
+                
+                $this->filmRepository->delete($film);  
+    
+                
+                header('Location: /films/list.html.twig');
+                exit;
+            } else {
+                
+                echo "Film introuvable.";
+            }
+        }
     }
+    
 }

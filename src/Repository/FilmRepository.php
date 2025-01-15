@@ -67,4 +67,15 @@ class FilmRepository
             'created_at' => $film->getCreatedAt()->format('Y-m-d H:i:s'),
         ]);
     }
+
+    public function delete(Film $film): void
+    {
+        // On prépare la requête de suppression
+        $stmt = $this->db->prepare('
+            DELETE FROM film WHERE id = :id
+        ');
+
+        // Exécution de la requête
+        $stmt->execute(['id' => $film->getId()]);
+    }
 }
