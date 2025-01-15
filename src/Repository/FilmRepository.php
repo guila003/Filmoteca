@@ -52,4 +52,19 @@ class FilmRepository
         // Utilise le service de mappage pour convertir le résultat en objet Film
         return $this->entityMapperService->mapToEntity($film, Film::class);
     }
+
+    public function add(Film $film): void
+    {
+        $query = 'INSERT INTO film (title, year, type, synopsis, director, created_at) VALUES (:title, :year, :type, :synopsis, :director, :created_at)';
+        $stmt = $this->db->prepare($query);
+    
+        $stmt->execute([
+            'title' => $film->getTitle(),
+            'year' => $film->getYear(),
+            'type' => $film->getType(),
+            'synopsis' => $film->getSynopsis(),
+            'director' => $film->getDirector(),
+            'created_at' => $film->getCreatedAt()->format('Y-m-d H:i:s'),
+        ]);
+    }
 }

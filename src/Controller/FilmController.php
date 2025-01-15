@@ -7,57 +7,64 @@ namespace App\Controller;
 use App\Core\TemplateRenderer;
 use App\Entity\Film;
 use App\Repository\FilmRepository;
+use App\Service\EntityMapper;
 
 class FilmController
 {
     private TemplateRenderer $renderer;
+    private EntityMapper $entityMapper;
+    private FilmRepository $filmRepository; // Ajoute la propriété filmRepository
 
     public function __construct()
     {
         $this->renderer = new TemplateRenderer();
+        $this->entityMapper = new EntityMapper();
+        $this->filmRepository = new FilmRepository(); // Initialise filmRepository ici
     }
 
     public function list(array $queryParams)
     {
-        $filmRepository = new FilmRepository();
-        $films = $filmRepository->findAll();
-
-        /* $filmEntities = [];
-        foreach ($films as $film) {
-            $filmEntity = new Film();
-            $filmEntity->setId($film['id']);
-            $filmEntity->setTitle($film['title']);
-            $filmEntity->setYear($film['year']);
-            $filmEntity->setType($film['type']);
-            $filmEntity->setSynopsis($film['synopsis']);
-            $filmEntity->setDirector($film['director']);
-            $filmEntity->setCreatedAt(new \DateTime($film['created_at']));
-            $filmEntity->setUpdatedAt(new \DateTime($film['updated_at']));
-
-            $filmEntities[] = $filmEntity;
-        } */
-
-        //dd($films);
+        $films = $this->filmRepository->findAll();  // Utilise la propriété filmRepository pour récupérer les films
 
         echo $this->renderer->render('film/list.html.twig', [
             'films' => $films,
         ]);
-
-        // header('Content-Type: application/json');
-        // echo json_encode($films);
     }
 
-    public function create()
+    public function create(): void
     {
-        echo "Création d'un film";
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récupération des données du formulaire
+            $data = [
+                'title' => $_POST['title'] ?? '',
+                'year' => $_POST['year'] ?? '',
+                'type' => $_POST['type'] ?? '',
+                'director' => $_POST['director'] ?? '',
+                'synopsis' => $_POST['synopsis'] ?? '',
+                'created_at' => (new \DateTime())->format('Y-m-d H:i:s'),
+                'updated_at' => (new \DateTime())->format('Y-m-d H:i:s')
+            ];
+
+            // Utilisation de l'EntityMapper pour créer un objet Film
+            $film = $this->entityMapper->mapToEntity($data, Film::class);
+
+            // Enregistrement du film dans la base de données
+            $this->filmRepository->add($film);  // Utilise la méthode add dans FilmRepository pour insérer le film
+
+            // Redirection vers la liste des films après ajout
+            header('Location: /films');
+            exit;
+        }
+
+        // Affichage du formulaire pour créer un film
+        echo $this->renderer->render('film/create.html.twig');
     }
 
     public function read(array $queryParams)
     {
-        $filmRepository = new FilmRepository();
-        $film = $filmRepository->find((int) $queryParams['id']);
+        $film = $this->filmRepository->find((int) $queryParams['id']); // Recherche du film par ID
 
-        dd($film);
+        dd($film);  // Affiche les détails du film (ou envoie la réponse JSON, ou toute autre action)
     }
 
     public function update()
