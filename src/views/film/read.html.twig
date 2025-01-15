@@ -3,35 +3,46 @@
 {% block title %}Détails du Film{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <!-- Film Card -->
-        <div class="col-md-8">
-            <div class="card shadow-sm border-light">
-                <!-- Film Header avec Image -->
-                <img src="{{ film.posterUrl }}" class="card-img-top" alt="{{ film.title }}">
-                
-                <!-- Film Body -->
-                <div class="card-body bg-light">
-                    <h2 class="card-title text-center text-primary">{{ film.title }}</h2>
-                    <p class="card-text text-center text-muted">{{ film.year }} | {{ film.type }}</p>
-                    
-                    <h4 class="mt-4">Synopsis</h4>
-                    <p>{{ film.synopsis }}</p>
-
-                    <h5 class="mt-4">Détails supplémentaires</h5>
-                    <ul class="list-unstyled">
-                        <li><strong>Réalisateur :</strong> {{ film.director }}</li>
-                        <li><strong>Créé le :</strong> {{ film.createdAt.format('d/m/Y H:i') }}</li>
-                        <li><strong>Dernière mise à jour :</strong> {{ film.updatedAt.format('d/m/Y H:i') }}</li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mt-4">
-                        <a href="/films" class="btn btn-info px-4 py-2">Retour à la liste</a>
+    <div class="container py-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-body">
+                <h1 class="card-title text-center text-primary mb-4">
+                    <i class="fas fa-film"></i> {{ film.title }}
+                </h1>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Année :</strong> {{ film.year }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Genre :</strong> {{ film.type }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Réalisateur :</strong> {{ film.director }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Synopsis :</strong> {{ film.synopsis }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Créé le :</strong> {{ film.createdAt|date("d-m-Y") }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Mis à jour le :</strong> {{ film.updatedAt|date("d-m-Y") }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <a href="/film/update?id={{ film.id }}" class="btn btn-warning btn-lg mb-3">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                        <a href="/films" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-arrow-left"></i> Retour à la liste
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

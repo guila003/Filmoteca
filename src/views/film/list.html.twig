@@ -1,18 +1,17 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Liste des films{% endblock %}
-
 {% block content %}
-    <div class="container mt-5">
-        <h2 class="mb-4 text-center text-primary">
-            <i class="fas fa-list" aria-hidden="true"></i> Liste des films
+    <div class="container py-5">
+        <h2 class="text-center text-primary mb-4">
+            <i class="fas fa-list"></i> Liste des films
         </h2>
-
         {% if films is empty %}
-            <p class="alert alert-warning text-center">Aucun film disponible pour le moment.</p>
+            <div class="alert alert-warning text-center">
+                Aucun film disponible pour le moment.
+            </div>
         {% else %}
-            <table class="table table-bordered table-hover table-striped align-middle">
-                <thead class="table-dark text-center">
+            <table class="table table-bordered table-hover shadow-sm">
+                <thead class="table-primary text-center">
                     <tr>
                         <th>#</th>
                         <th>Titre</th>
@@ -22,7 +21,7 @@
                         <th>Synopsis</th>
                         <th>Ajouté le</th>
                         <th>Modifié le</th>
-                        <th>Actions</th>
+                        <th>Supprimer</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +29,7 @@
                         <tr>
                             <td class="text-center">{{ film.id }}</td>
                             <td>
-                                <a href="/film/read?id={{ film.id }}" class="text-decoration-none text-primary">
+                                <a href="/film/read?id={{ film.id }}" class="text-decoration-none text-dark fw-bold">
                                     {{ film.title }}
                                 </a>
                             </td>
@@ -41,7 +40,6 @@
                             <td class="text-center">{{ film.createdAt.format('d/m/Y H:i') }}</td>
                             <td class="text-center">{{ film.updatedAt.format('d/m/Y H:i') }}</td>
                             <td class="text-center">
-                                <!-- Bouton de suppression avec confirmation -->
                                 <form action="/film/delete?id={{ film.id }}" method="POST" style="display:inline;">
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce film ?');">
                                         Supprimer

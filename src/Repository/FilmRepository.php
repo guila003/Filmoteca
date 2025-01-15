@@ -55,17 +55,36 @@ class FilmRepository
 
     public function add(Film $film): void
     {
-        $query = 'INSERT INTO film (title, year, type, synopsis, director, created_at) VALUES (:title, :year, :type, :synopsis, :director, :created_at)';
-        $stmt = $this->db->prepare($query);
-    
-        $stmt->execute([
-            'title' => $film->getTitle(),
-            'year' => $film->getYear(),
-            'type' => $film->getType(),
-            'synopsis' => $film->getSynopsis(),
-            'director' => $film->getDirector(),
-            'created_at' => $film->getCreatedAt()->format('Y-m-d H:i:s'),
-        ]);
+        if ($film->getId()) {
+            // Mise à jour si l'ID existe
+            $query = 'UPDATE film 
+                      SET title = :title, year = :year, type = :type, director = :director, synopsis = :synopsis, updated_at = :updatedAt 
+                      WHERE id = :id';
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                'title' => $film->getTitle(),
+                'year' => $film->getYear(),
+                'type' => $film->getType(),
+                'director' => $film->getDirector(),
+                'synopsis' => $film->getSynopsis(),
+                'updatedAt' => $film->getUpdatedAt()->format('Y-m-d H:i:s'),
+                'id' => $film->getId(),
+            ]);
+        } else {
+            // Insertion si aucun ID
+            $query = 'INSERT INTO film (title, year, type, director, synopsis, created_at, updated_at) 
+                      VALUES (:title, :year, :type, :director, :synopsis, :createdAt, :updatedAt)';
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                'title' => $film->getTitle(),
+                'year' => $film->getYear(),
+                'type' => $film->getType(),
+                'director' => $film->getDirector(),
+                'synopsis' => $film->getSynopsis(),
+                'createdAt' => $film->getCreatedAt()->format('Y-m-d H:i:s'),
+                'updatedAt' => $film->getUpdatedAt()->format('Y-m-d H:i:s'),
+            ]);
+        }
     }
 
     public function delete(Film $film): void
@@ -78,4 +97,6 @@ class FilmRepository
         // Exécution de la requête
         $stmt->execute(['id' => $film->getId()]);
     }
+
+   
 }
